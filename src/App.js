@@ -1,10 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-import TG from './templateGenerator/tg';
+import logo from "./logo.svg";
+import "./App.css";
+import { ChakraProvider } from "@chakra-ui/react";
+import TG from "./templateGenerator/tg";
 function App() {
   return (
     <div className="App">
-      <TG />
+      <ChakraProvider>
+        <TG />
+      </ChakraProvider>
     </div>
   );
 }
