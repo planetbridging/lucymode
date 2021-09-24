@@ -26,56 +26,181 @@ import {
 import * as sc from "./staticContent";
 
 class objPanels {
-  constructor(id) {
+  constructor(id, stat) {
     this.id = id;
     this.lst = [];
+    this.c = stat;
   }
 }
 
 export var lstPanelIds = new Map();
 export var lstPanels = [];
+export var lstCheckIds = new Map();
 export var lstCheck = [];
+
+export class OnlyCHeck extends React.Component {
+  state = {
+    location: false,
+  };
+  render() {
+    var id = uuidv4();
+    if (this.props.check) {
+      return (
+        <input
+          type="checkbox"
+          onClick={this.onClick}
+          name={id}
+          id={id}
+          checked
+        ></input>
+      );
+    } else {
+      return (
+        <input type="checkbox" onClick={this.onClick} name={id} id={id}></input>
+      );
+    }
+    return (
+      <div>
+        wetert
+        <input type="checkbox" onClick={this.onClick} name={id} id={id}></input>
+        <label for={id}>{this.props.item}</label>
+      </div>
+    );
+  }
+
+  onClick = (e) => {
+    this.setState({ location: e.target.checked });
+  };
+}
 
 export class CheckList extends React.Component {
   state = {
     showCheckItems: [],
+    checked: [],
+    sel: false,
+    clicked: 0,
   };
-  setCheckedItems = (id, lst, num, event) => {
-    this.props.parentCallback("", "checkid:" + id, lst);
-    const { showCheckItems } = this.state;
-    if (lst[1]) {
-      if (!showCheckItems.includes(lst[0])) {
-        showCheckItems.push(lst[0]);
-      }
-    } else {
-      const index = showCheckItems.indexOf(lst[0]);
-      if (index > -1) {
-        showCheckItems.splice(index, 1);
-      }
+  componentDidMount() {
+    if (!lstCheckIds.has(this.props.id)) {
+      lstCheckIds.set(this.props.id);
+      lstCheck.push(new objPanels(this.props.id));
     }
+    this.loadCheckedItems();
+  }
+
+  loadCheckedItems = () => {
+    var lst = [];
+    for (var i in this.props.items) {
+      lst.push(false);
+    }
+    this.setState({ checked: lst });
   };
-  return() {
-    return (
-      <Checkbox
-        defaultChecked={true}
-        onChange={(e) =>
-          this.setCheckedItems(
-            this.props.lstid,
-            ["", e.target.checked, 0],
-            this.props.pageNumber,
-            e
-          )
+
+  setCheckedItems = (id, lst) => {
+    var { showCheckItems } = this.state;
+    try {
+      if (lst[1]) {
+        if (!showCheckItems.includes(lst[0])) {
+          showCheckItems.push(lst[0]);
+          lstCheck[id].lst.push(lst[0]);
         }
-        checkedLink={console.log("helo")}
-        className="btnPadding"
+      } else {
+        const index = showCheckItems.indexOf(lst[0]);
+        if (index > -1) {
+          showCheckItems.splice(index, 1);
+          lstCheck[id].lst.splice(index, 1);
+        }
+      }
+    } catch (e) {
+      console.log("unable to set checked item");
+    }
+    //console.log(lstCheck);
+    //this.props.parentCallback(lst, id);
+    this.props.parentCallback(lst, id);
+  };
+
+  onClick = (e) => {
+    var { sel, clicked } = this.state;
+    //this.setState({ location: !e.target.checked });
+    //console.log(e.target.checked);
+    //console.log(e.target.value);
+    //this.props.parentCallback();
+    console.log(e);
+    clicked += 1;
+    if (sel) {
+      sel = false;
+    } else {
+      sel = true;
+    }
+    console.log(sel);
+    console.log(clicked);
+    this.setState({ sel: sel, clicked: clicked });
+    this.props.parentCallback();
+  };
+
+  handleCallback = () => {
+    this.props.parentCallback();
+  };
+  render() {
+    var { sel } = this.state;
+    var checkingitems = this.props.items.map((i, index) => (
+      <Checkbox
+        key={uuidv4()}
+        defaultChecked={false}
+        onChange={(e) =>
+          this.setCheckedItems(this.props.id, [i, e.target.checked])
+        }
+        className={this.props.classes}
         key={uuidv4()}
         Button
-        colorScheme="teal"
-        size="lg"
-      ></Checkbox>
+        colorScheme={this.props.cs}
+        size={this.props.size}
+        isChecked={true}
+      >
+        {i}
+      </Checkbox>
+    ));
+    return (
+      <>
+        {checkingitems}
+        <Button onClick={(e) => this.onClick("lol")}>
+          <OnlyCHeck check={sel} />
+          omg
+        </Button>
+      </>
     );
   }
 }
+
+/*<div key={uuidv4()}>
+        <OnlyCHeck item={i} parentCallback={this.handleCallback} />
+      </div>*/
+
+/*<input
+          value={i}
+          onClick={this.onClick}
+          type="checkbox"
+          id={"c" + index}
+          name={"c" + index}
+          checked
+        />
+        <label for={"c" + index}>{i}</label>*/
+
+/*<Checkbox
+        onClick={this.onClick}
+        key={uuidv4()}
+        defaultChecked={false}
+        onChange={(e) =>
+          this.setCheckedItems(this.props.id, [i, e.target.checked])
+        }
+        className={this.props.classes}
+        key={uuidv4()}
+        Button
+        colorScheme={this.props.cs}
+        size={this.props.size}
+      >
+        {i}
+      </Checkbox>*/
 
 export class SlidePanel extends React.Component {
   state = {
