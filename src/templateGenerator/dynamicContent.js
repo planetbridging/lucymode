@@ -38,7 +38,7 @@ export var lstPanels = [];
 export var lstCheckIds = new Map();
 export var lstCheck = [];
 
-export class OnlyCHeck extends React.Component {
+export class CustomCheckBox extends React.Component {
   state = {
     location: false,
   };
@@ -114,27 +114,25 @@ export class CheckList extends React.Component {
     } catch (e) {
       console.log("unable to set checked item");
     }
-    //console.log(lstCheck);
-    //this.props.parentCallback(lst, id);
     this.props.parentCallback(lst, id);
   };
 
-  onClick = (e) => {
-    var { sel, clicked } = this.state;
-    //this.setState({ location: !e.target.checked });
-    //console.log(e.target.checked);
-    //console.log(e.target.value);
-    //this.props.parentCallback();
-    console.log(e);
-    clicked += 1;
-    if (sel) {
-      sel = false;
+  onClick = (e, i, id) => {
+    var { checked } = this.state;
+    const index = lstCheck[id].lst.indexOf(e);
+    if (checked[i]) {
+      checked[i] = false;
+      if (index > -1) {
+        lstCheck[id].lst.splice(index, 1);
+      }
     } else {
-      sel = true;
+      checked[i] = true;
+      if (index != 0) {
+        lstCheck[id].lst.push(e);
+      }
     }
-    console.log(sel);
-    console.log(clicked);
-    this.setState({ sel: sel, clicked: clicked });
+
+    this.setState({ checked: checked });
     this.props.parentCallback();
   };
 
@@ -142,33 +140,17 @@ export class CheckList extends React.Component {
     this.props.parentCallback();
   };
   render() {
-    var { sel } = this.state;
+    var { checked } = this.state;
     var checkingitems = this.props.items.map((i, index) => (
-      <Checkbox
+      <Button
         key={uuidv4()}
-        defaultChecked={false}
-        onChange={(e) =>
-          this.setCheckedItems(this.props.id, [i, e.target.checked])
-        }
-        className={this.props.classes}
-        key={uuidv4()}
-        Button
-        colorScheme={this.props.cs}
-        size={this.props.size}
-        isChecked={true}
+        onClick={(e) => this.onClick(i, index, this.props.id)}
       >
+        <CustomCheckBox check={checked[index]} />
         {i}
-      </Checkbox>
+      </Button>
     ));
-    return (
-      <>
-        {checkingitems}
-        <Button onClick={(e) => this.onClick("lol")}>
-          <OnlyCHeck check={sel} />
-          omg
-        </Button>
-      </>
-    );
+    return <>{checkingitems}</>;
   }
 }
 

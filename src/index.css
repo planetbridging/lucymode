@@ -6,3 +6,26 @@
   flex: 1;
   padding: 10px;
 }
+
+.topLink {
+  padding: 2px;
+  width: 100%;
+}
+
+.home:hover,
+.testing:hover,
+.source:hover {
+  background-color: #0f8afd;
+}
+
+.home {
+  background-color: #848484;
+}
+
+.testing {
+  background-color: #ff000062;
+}
+
+.source {
+  background-color: #d400ff62;
+}
