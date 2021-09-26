@@ -3,8 +3,13 @@ import { v4 as uuidv4 } from "uuid";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import * as sc from "./staticContent";
 import * as dc from "./dynamicContent";
+import * as cr from "./contentReader";
 
 var ttt = "wow";
+
+var j = {
+  content: [{ text: ["Career Navigator", ["size", "lg"]] }],
+};
 
 class TG extends React.Component {
   state = { lstDyn: [], lstChecked: [], change: "" };
@@ -119,6 +124,7 @@ class TG extends React.Component {
                 {checkeditems}
 
                 {ttt}
+                {cr.contentReader(j)}
               </div>
             </Route>
 
