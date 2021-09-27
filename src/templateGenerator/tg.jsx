@@ -4,12 +4,55 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import * as sc from "./staticContent";
 import * as dc from "./dynamicContent";
 import * as cr from "./contentReader";
+import {
+  Center,
+  Box,
+  Stack,
+  Text,
+  VStack,
+  StackDivider,
+  Button,
+  ButtonGroup,
+  Checkbox,
+  Wrap,
+  WrapItem,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Flex,
+  Spacer,
+} from "@chakra-ui/react";
 
 var ttt = "wow";
 
 var j = {
-  content: [{ text: ["Career Navigator", ["size", "lg"]] }],
+  content: [
+    { i: "text", content: "text1", fontSize: "lg" },
+    { i: "text", content: "text2", fontSize: "lg" },
+    {
+      i: "box",
+      content: { i: "text", content: "text3", fontSize: "lg" },
+      border: "1px",
+      borderColor: "red.200",
+    },
+    {
+      i: "box",
+      content: {
+        i: "box",
+        content: { i: "text", content: "text4", fontSize: "lg" },
+        border: "1px",
+        borderColor: "purple.200",
+      },
+      border: "1px",
+      borderColor: "green.200",
+    },
+  ],
 };
+//border="1px" borderColor="gray.200"
 
 class TG extends React.Component {
   state = { lstDyn: [], lstChecked: [], change: "" };
@@ -45,7 +88,6 @@ class TG extends React.Component {
                 sc.getSpace(),
                 <Link
                   className="topLink home"
-                  activeClass="active"
                   to="/"
                   spy={true}
                   smooth={true}
@@ -57,7 +99,6 @@ class TG extends React.Component {
                 sc.getSpace(),
                 <Link
                   className="topLink testing"
-                  activeClass="active"
                   to="/testing/"
                   spy={true}
                   smooth={true}
@@ -69,7 +110,6 @@ class TG extends React.Component {
                 sc.getSpace(),
                 <Link
                   className="topLink source"
-                  activeClass="active"
                   to="/source/"
                   spy={true}
                   smooth={true}
@@ -85,16 +125,8 @@ class TG extends React.Component {
           <Switch>
             <Route path="/testing/">
               <div>
-                {sc.getBox(sc.getText("lol"))}
-                {sc.getFlex([
-                  sc.getSpace(),
-                  sc.getText("a"),
-                  sc.getSpace(),
-                  sc.getText("b"),
-                  sc.getSpace(),
-                  sc.getText("c"),
-                  sc.getSpace(),
-                ])}
+                {sc.getBox(<sc.objText content={"lol"} />)}
+                {sc.getFlex([sc.getSpace(), <sc.objText content="a" />])}
 
                 <dc.SlidePanel
                   id={0}
@@ -106,7 +138,6 @@ class TG extends React.Component {
                       id={1}
                       testing={true}
                       parentCallback={this.handleCallback}
-                      content={sc.getText("content")}
                     />
                   }
                 />
@@ -124,6 +155,17 @@ class TG extends React.Component {
                 {checkeditems}
 
                 {ttt}
+
+                <Box border="1px" borderColor="gray.200">
+                  hello
+                  <Box border="1px" borderColor="red">
+                    <Box border="1px" borderColor="blue">
+                      <Box border="1px" borderColor="orange">
+                        Card
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
                 {cr.contentReader(j)}
               </div>
             </Route>
