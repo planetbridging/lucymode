@@ -4,28 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import * as sc from "./staticContent";
 import * as dc from "./dynamicContent";
 import * as cr from "./contentReader";
-import {
-  Center,
-  Box,
-  Stack,
-  Text,
-  VStack,
-  StackDivider,
-  Button,
-  ButtonGroup,
-  Checkbox,
-  Wrap,
-  WrapItem,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Flex,
-  Spacer,
-} from "@chakra-ui/react";
+import * as ch from "@chakra-ui/react";
 
 var ttt = "wow";
 
@@ -87,17 +66,6 @@ class TG extends React.Component {
               {sc.getFlex([
                 sc.getSpace(),
                 <Link
-                  className="topLink home"
-                  to="/"
-                  spy={true}
-                  smooth={true}
-                  offset={0}
-                  duration={500}
-                >
-                  template
-                </Link>,
-                sc.getSpace(),
-                <Link
                   className="topLink testing"
                   to="/testing/"
                   spy={true}
@@ -106,6 +74,17 @@ class TG extends React.Component {
                   duration={500}
                 >
                   testing
+                </Link>,
+                sc.getSpace(),
+                <Link
+                  className="topLink home"
+                  to="/"
+                  spy={true}
+                  smooth={true}
+                  offset={0}
+                  duration={500}
+                >
+                  template
                 </Link>,
                 sc.getSpace(),
                 <Link
@@ -156,17 +135,26 @@ class TG extends React.Component {
 
                 {ttt}
 
-                <Box border="1px" borderColor="gray.200">
+                <ch.Box border="1px" borderColor="gray.200">
                   hello
-                  <Box border="1px" borderColor="red">
-                    <Box border="1px" borderColor="blue">
-                      <Box border="1px" borderColor="orange">
+                  <ch.Box border="1px" borderColor="red">
+                    <ch.Box border="1px" borderColor="blue">
+                      <ch.Box border="1px" borderColor="orange">
                         Card
-                      </Box>
-                    </Box>
-                  </Box>
-                </Box>
+                      </ch.Box>
+                    </ch.Box>
+                  </ch.Box>
+                </ch.Box>
                 {cr.contentReader(j)}
+                {cr.getTemplate(
+                  {
+                    i: "box",
+                    content: "ewfew",
+                    border: "1px",
+                    borderColor: "red.200",
+                  },
+                  <ch.Box>inside</ch.Box>
+                )}
               </div>
             </Route>
 

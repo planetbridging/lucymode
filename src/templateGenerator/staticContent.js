@@ -1,34 +1,13 @@
-import {
-  Center,
-  Box,
-  Stack,
-  Text,
-  VStack,
-  StackDivider,
-  Button,
-  ButtonGroup,
-  Checkbox,
-  Wrap,
-  WrapItem,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Flex,
-  Spacer,
-} from "@chakra-ui/react";
+import * as ch from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 
 export class objText extends React.Component {
   render() {
     return (
-      <Text className={this.props.className} fontSize={this.props.fontSize}>
+      <ch.Text className={this.props.className} fontSize={this.props.fontSize}>
         {this.props.content}
-      </Text>
+      </ch.Text>
     );
   }
 }
@@ -36,7 +15,7 @@ export class objText extends React.Component {
 export class objBox extends React.Component {
   render() {
     return (
-      <Box
+      <ch.Box
         bg={this.props.background}
         border={this.props.border}
         borderColor={this.props.borderColor}
@@ -48,7 +27,7 @@ export class objBox extends React.Component {
         boxShadow={this.props.boxShadow}
       >
         {this.props.content}
-      </Box>
+      </ch.Box>
     );
   }
 }
@@ -71,9 +50,9 @@ export function getResults(
   wwidth
 ) {
   const listItems = items.map((i) => (
-    <WrapItem key={uuidv4()}>
-      <Center w={cwidth} h={cheight}>
-        <Box
+    <ch.WrapItem key={uuidv4()}>
+      <ch.Center w={cwidth} h={cheight}>
+        <ch.Box
           border={boxb}
           borderColor={boxbc}
           rounded={boxr}
@@ -82,36 +61,36 @@ export function getResults(
           p={bp}
           m={bm}
         >
-          <VStack spacing={vsspace} align={vsalign}>
+          <ch.VStack spacing={vsspace} align={vsalign}>
             {i}
-          </VStack>
-        </Box>
-      </Center>
-    </WrapItem>
+          </ch.VStack>
+        </ch.Box>
+      </ch.Center>
+    </ch.WrapItem>
   ));
   return (
     <div className="autoRow">
-      <Wrap spacing={wspace} justify={wjust} w={wwidth}>
+      <ch.Wrap spacing={wspace} justify={wjust} w={wwidth}>
         {listItems}
-      </Wrap>
+      </ch.Wrap>
     </div>
   );
 }
 
 export function getSelected(items, color, cwidth, wimargin) {
   const listItems = items.map((i) => (
-    <WrapItem key={uuidv4()} m={wimargin}>
-      <Center w={cwidth} bg={color}>
+    <ch.WrapItem key={uuidv4()} m={wimargin}>
+      <ch.Center w={cwidth} bg={color}>
         {i}
-      </Center>
-    </WrapItem>
+      </ch.Center>
+    </ch.WrapItem>
   ));
   return <div className="autoRow">{listItems}</div>;
 }
 
 export function getBox(item, bthick, bcolor, rsize, w, p, m, bg, c, bs) {
   return (
-    <Box
+    <ch.Box
       bg={bg}
       border={bthick}
       borderColor={bcolor}
@@ -123,7 +102,7 @@ export function getBox(item, bthick, bcolor, rsize, w, p, m, bg, c, bs) {
       boxShadow={bs}
     >
       {item}
-    </Box>
+    </ch.Box>
   );
 }
 
@@ -133,13 +112,13 @@ export function getTiles(items) {
 }
 
 export function getSpace() {
-  return <Spacer />;
+  return <ch.Spacer />;
 }
 
 export function getFlex(items, a, j) {
   return (
-    <Flex align={a} justify={j}>
+    <ch.Flex align={a} justify={j}>
       {items}
-    </Flex>
+    </ch.Flex>
   );
 }

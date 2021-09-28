@@ -1,28 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
+import * as ch from "@chakra-ui/react";
 import React from "react";
-import {
-  Center,
-  Box,
-  Stack,
-  Text,
-  VStack,
-  StackDivider,
-  Button,
-  ButtonGroup,
-  Checkbox,
-  Wrap,
-  WrapItem,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Flex,
-  Spacer,
-} from "@chakra-ui/react";
-
 import * as sc from "./staticContent";
 
 class objPanels {
@@ -142,13 +120,13 @@ export class CheckList extends React.Component {
   render() {
     var { checked } = this.state;
     var checkingitems = this.props.items.map((i, index) => (
-      <Button
+      <ch.Button
         key={uuidv4()}
         onClick={(e) => this.onClick(i, index, this.props.id)}
       >
         <CustomCheckBox check={checked[index]} />
         {i}
-      </Button>
+      </ch.Button>
     ));
     return <>{checkingitems}</>;
   }
@@ -218,7 +196,7 @@ export class SlidePanel extends React.Component {
     var lstTesting = <></>;
     if (this.props.testing) {
       testing = (
-        <Button
+        <ch.Button
           onClick={() => {
             var c = counter + 1;
             lstPanels[this.props.id].lst.push(c);
@@ -237,14 +215,14 @@ export class SlidePanel extends React.Component {
           borderColor={this.props.btntbc}
         >
           testing
-        </Button>
+        </ch.Button>
       );
 
       lstTesting = lstPanels.map((i) => <div key={uuidv4()}>{i.lst}</div>);
     }
     return (
       <div>
-        <Button
+        <ch.Button
           onClick={() => this.btnOpenDesc()}
           colorScheme={this.props.btn1cs}
           variant={this.props.btn1v}
@@ -258,12 +236,12 @@ export class SlidePanel extends React.Component {
           borderColor={this.props.btn1bc}
         >
           {this.props.btn1content}
-        </Button>
+        </ch.Button>
         {testing}
-        <Drawer isOpen={isOpen} placement={this.props.side}>
-          <DrawerOverlay />
-          <DrawerContent>
-            <Button
+        <ch.Drawer isOpen={isOpen} placement={this.props.side}>
+          <ch.DrawerOverlay />
+          <ch.DrawerContent>
+            <ch.Button
               onClick={() => this.btnCloseDesc()}
               colorScheme={this.props.btn2cs}
               variant={this.props.btn2v}
@@ -277,16 +255,16 @@ export class SlidePanel extends React.Component {
               borderColor={this.props.btn2bc}
             >
               {this.props.btn2content}
-            </Button>
-            <DrawerHeader>{title}</DrawerHeader>
-            <DrawerBody>
+            </ch.Button>
+            <ch.DrawerHeader>{title}</ch.DrawerHeader>
+            <ch.DrawerBody>
               {content}
               {lstTesting}
-            </DrawerBody>
+            </ch.DrawerBody>
 
-            <DrawerFooter>{footer}</DrawerFooter>
-          </DrawerContent>
-        </Drawer>
+            <ch.DrawerFooter>{footer}</ch.DrawerFooter>
+          </ch.DrawerContent>
+        </ch.Drawer>
       </div>
     );
   }

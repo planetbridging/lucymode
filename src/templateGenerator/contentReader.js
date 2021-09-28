@@ -1,27 +1,6 @@
 import * as sc from "./staticContent";
-import * as cd from "./dynamicContent";
-import {
-  Center,
-  Box,
-  Stack,
-  Text,
-  VStack,
-  StackDivider,
-  Button,
-  ButtonGroup,
-  Checkbox,
-  Wrap,
-  WrapItem,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Flex,
-  Spacer,
-} from "@chakra-ui/react";
+import * as dc from "./dynamicContent";
+import * as ch from "@chakra-ui/react";
 
 var lstItems = new Map();
 lstItems.set("text");
@@ -46,9 +25,9 @@ export class contentManager {
             if (prop == "text") {
               var settings = findSettings(["fontSize", "cssClass"], obj[prop]);
               this.lst.push(
-                <Text fontSize={settings[0]} className={settings[1]}>
+                <ch.Text fontSize={settings[0]} className={settings[1]}>
                   {obj[prop][0]}
-                </Text>
+                </ch.Text>
               );
             } else if ("box") {
             }
@@ -190,28 +169,60 @@ export function contentReader(json) {
   return lst;
 }
 
-export function getTemplate(item) {
+export function getTemplate(item, insert) {
   if (typeof item == "object") {
     //var keys = Object.keys(item);
 
     //console.log(keys);
+    var subitem = item["content"];
+    if (typeof item["content"] == "object") {
+      subitem = getTemplate(item["content"]);
+    } else if (insert != null) {
+      subitem = insert;
+    }
     switch (item["i"]) {
       case "text":
         return (
-          <Text fontSize={item["fontSize"]} className={item["className"]}>
-            {item["content"]}
-          </Text>
+          <ch.Text fontSize={item["fontSize"]} className={item["className"]}>
+            {subitem}
+          </ch.Text>
         );
       case "box":
-        var subitem = item["content"];
-        if (typeof item["content"] == "object") {
-          subitem = getTemplate(item["content"]);
-        }
         return (
-          <Box border={item["border"]} borderColor={item["borderColor"]}>
+          <ch.Box
+            bg={item["bg"]}
+            border={item["border"]}
+            borderColor={item["borderColor"]}
+            w={item["w"]}
+            p={item["p"]}
+            color={item["color"]}
+            h={item["h"]}
+          >
             {subitem}
-          </Box>
+          </ch.Box>
         );
+      case "center":
+        return (
+          <ch.Center w={item["w"]} h={item["h"]} bg={item["bg"]}>
+            {subitem}
+          </ch.Center>
+        );
+      case "wrapitem":
+        return <ch.WrapItem>{subitem}</ch.WrapItem>;
+      case "wrap":
+        return <ch.Wrap spacing={item["spacing"]}>{subitem}</ch.Wrap>;
+      case "slidepanel":
+        return (
+          <dc.SlidePanel
+            id={item["id"]}
+            side={item["side"]}
+            content={subitem}
+          />
+        );
+      case "flex":
+        return <ch.Flex>{subitem}</ch.Flex>;
+      case "hstack":
+        return <ch.HStack spacing={item["spacing"]}>{subitem}</ch.HStack>;
     }
   }
   console.log("bugger");
@@ -275,9 +286,9 @@ export function getTemplatedItem(key, item) {
     switch (key) {
       case "text":
         return (
-          <Text fontSize={fontSize} className={cssClass}>
+          <ch.Text fontSize={fontSize} className={cssClass}>
             {item[0]}
-          </Text>
+          </ch.Text>
         );
 
       case "box":
@@ -286,7 +297,7 @@ export function getTemplatedItem(key, item) {
           console.log("obj");
         }
         lst.push(
-          <Box
+          <ch.Box
             as={as}
             content={item[0]}
             border={border}
@@ -301,12 +312,12 @@ export function getTemplatedItem(key, item) {
             background={background}
           >
             {item[0]}
-          </Box>
+          </ch.Box>
         );
         return lst;
 
       case "space":
-        return <Spacer />;
+        return <ch.Spacer />;
     }
     return item[0];
   } catch (e) {
