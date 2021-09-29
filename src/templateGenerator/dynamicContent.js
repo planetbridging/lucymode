@@ -238,7 +238,11 @@ export class SlidePanel extends React.Component {
           {this.props.btn1content}
         </ch.Button>
         {testing}
-        <ch.Drawer isOpen={isOpen} placement={this.props.side}>
+        <ch.Drawer
+          size={this.props.size}
+          isOpen={isOpen}
+          placement={this.props.side}
+        >
           <ch.DrawerOverlay />
           <ch.DrawerContent>
             <ch.Button

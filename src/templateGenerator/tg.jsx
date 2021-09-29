@@ -124,6 +124,7 @@ class TG extends React.Component {
           <Switch>
             <Route path="/source/">
               <AceEditor
+                width="100%"
                 placeholder="Placeholder Text"
                 mode="javascript"
                 name="blah2"
@@ -144,6 +145,10 @@ class TG extends React.Component {
             </Route>
             <Route path="/testing/">
               <div>
+                <ch.Grid templateColumns="repeat(5, 1fr)" gap={4}>
+                  <ch.GridItem colSpan={2} h="10" bg="tomato" />
+                  <ch.GridItem colStart={4} colEnd={6} h="10" bg="papayawhip" />
+                </ch.Grid>
                 {sc.getBox(<sc.objText content={"lol"} />)}
                 {sc.getFlex([sc.getSpace(), <sc.objText content="a" />])}
 

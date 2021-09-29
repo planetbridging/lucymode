@@ -174,11 +174,22 @@ export function getTemplate(item, insert) {
     //var keys = Object.keys(item);
 
     //console.log(keys);
+
     var subitem = item["content"];
     if (typeof item["content"] == "object") {
-      subitem = getTemplate(item["content"]);
+      if (Array.isArray(item["content"])) {
+        var lst = [];
+        for (var i in item["content"]) {
+          lst.push(getTemplate(item["content"][i]));
+        }
+        subitem = lst;
+      } else {
+        subitem = getTemplate(item["content"]);
+      }
     } else if (insert != null) {
       subitem = insert;
+    } else if (Array.isArray(subitem)) {
+      console.log("load array");
     }
     switch (item["i"]) {
       case "text":
@@ -210,21 +221,65 @@ export function getTemplate(item, insert) {
       case "wrapitem":
         return <ch.WrapItem>{subitem}</ch.WrapItem>;
       case "wrap":
-        return <ch.Wrap spacing={item["spacing"]}>{subitem}</ch.Wrap>;
+        return (
+          <ch.Wrap w={item["w"]} h={item["h"]} spacing={item["spacing"]}>
+            {subitem}
+          </ch.Wrap>
+        );
       case "slidepanel":
         return (
           <dc.SlidePanel
             id={item["id"]}
             side={item["side"]}
             content={subitem}
+            size={item["size"]}
+            btn1content={item["btn1content"]}
+            btn1width={item["btn1width"]}
+            btn1height={item["btn1height"]}
+            btn1cs={item["btn1colorScheme"]}
+            btn2content={item["btn2content"]}
+            btn2width={item["btn2width"]}
+            btn2height={item["btn2height"]}
+            btn2cs={item["btn2colorScheme"]}
           />
         );
       case "flex":
         return <ch.Flex>{subitem}</ch.Flex>;
       case "hstack":
         return <ch.HStack spacing={item["spacing"]}>{subitem}</ch.HStack>;
+      case "grid":
+        return (
+          <ch.Grid
+            h={item["h"]}
+            w={item["w"]}
+            templateColumns={item["templateColumns"]}
+            gap={item["gap"]}
+            bg={item["bg"]}
+          >
+            {subitem}
+          </ch.Grid>
+        );
+      case "griditem":
+        return (
+          <ch.GridItem
+            rowSpan={item["rowSpan"]}
+            colSpan={item["colSpan"]}
+            bg={item["bg"]}
+            colStart={item["colStart"]}
+            colEnd={item["colEnd"]}
+          >
+            {subitem}
+          </ch.GridItem>
+        );
+      case "link":
+        return (
+          <ch.Link href={item["href"]} color={item["color"]}>
+            {subitem}
+          </ch.Link>
+        );
     }
   }
+  console.log(item);
   console.log("bugger");
 }
 
