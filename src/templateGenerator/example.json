@@ -1,0 +1,23 @@
+{
+  "content": [
+    { "i": "text", "content": "text1", "fontSize": "lg" },
+    { "i": "text", "content": "text2", "fontSize": "lg" },
+    {
+      "i": "box",
+      "content": { "i": "text", "content": "text3", "fontSize": "lg" },
+      "border": "1px",
+      "borderColor": "red.200"
+    },
+    {
+      "i": "box",
+      "content": {
+        "i": "box",
+        "content": { "i": "text", "content": "text4", "fontSize": "lg" },
+        "border": "1px",
+        "borderColor": "purple.200"
+      },
+      "border": "1px",
+      "borderColor": "green"
+    }
+  ]
+}
