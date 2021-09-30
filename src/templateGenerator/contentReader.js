@@ -1,6 +1,7 @@
 import * as sc from "./staticContent";
 import * as dc from "./dynamicContent";
 import * as ch from "@chakra-ui/react";
+import * as ic from "@chakra-ui/icons";
 
 var lstItems = new Map();
 lstItems.set("text");
@@ -208,6 +209,7 @@ export function getTemplate(item, insert) {
             p={item["p"]}
             color={item["color"]}
             h={item["h"]}
+            boxShadow={item["boxShadow"]}
           >
             {subitem}
           </ch.Box>
@@ -277,6 +279,8 @@ export function getTemplate(item, insert) {
             {subitem}
           </ch.Link>
         );
+      case "WarningIcon":
+        return <ic.WarningIcon w={8} h={8} color="red.500" />;
     }
   }
   console.log(item);
