@@ -3,6 +3,8 @@ import * as dc from "./dynamicContent";
 import * as ch from "@chakra-ui/react";
 import * as ic from "@chakra-ui/icons";
 
+import React, { component, createElement } from "react";
+
 var lstItems = new Map();
 lstItems.set("text");
 lstItems.set("box");
@@ -170,38 +172,72 @@ export function contentReader(json) {
   return lst;
 }
 
+function sortItemType(item, insert) {
+  var subitem = item["content"];
+  if (typeof item["content"] == "object") {
+    if (Array.isArray(item["content"])) {
+      var lst = [];
+      for (var i in item["content"]) {
+        lst.push(getTemplate(item["content"][i]));
+      }
+      subitem = lst;
+    } else {
+      subitem = getTemplate(item["content"]);
+    }
+  } else if (insert != null) {
+    subitem = insert;
+  } else if (Array.isArray(subitem)) {
+    console.log("load array");
+  }
+  return subitem;
+}
+
 export function getTemplate(item, insert) {
+  if (Array.isArray(item)) {
+    var lst = [];
+    for (var i in item) {
+      lst.push(getTemplate(item[i], insert));
+    }
+    return lst;
+  }
   if (typeof item == "object") {
     //var keys = Object.keys(item);
 
     //console.log(keys);
 
-    var subitem = item["content"];
-    if (typeof item["content"] == "object") {
-      if (Array.isArray(item["content"])) {
-        var lst = [];
-        for (var i in item["content"]) {
-          lst.push(getTemplate(item["content"][i]));
-        }
-        subitem = lst;
-      } else {
-        subitem = getTemplate(item["content"]);
-      }
-    } else if (insert != null) {
-      subitem = insert;
-    } else if (Array.isArray(subitem)) {
-      console.log("load array");
-    }
+    var subitem = sortItemType(item, insert);
+
     switch (item["i"]) {
+      case "spacer ":
+        return <ch.Spacer />;
+      case "flex ":
+        return <ch.Flex color={item["color"]}>{subitem}</ch.Flex>;
+      case "button":
+        var btn1 = getTemplate(item["content"], insert);
+        return (
+          <ch.Button
+            colorScheme={item["colorScheme"]}
+            size={item["size"]}
+            onClick={item["onClick"]}
+          >
+            {btn1}
+          </ch.Button>
+        );
       case "text":
         return (
-          <ch.Text fontSize={item["fontSize"]} className={item["className"]}>
+          <ch.Text
+            color={item["color"]}
+            fontSize={item["fontSize"]}
+            className={item["className"]}
+            bg={item["bg"]}
+          >
             {subitem}
           </ch.Text>
         );
       case "box":
         return (
           <ch.Box
+            flex={item["flex"]}
             bg={item["bg"]}
             border={item["border"]}
             borderColor={item["borderColor"]}
@@ -221,7 +257,7 @@ export function getTemplate(item, insert) {
           </ch.Center>
         );
       case "wrapitem":
-        return <ch.WrapItem>{subitem}</ch.WrapItem>;
+        return <ch.WrapItem p={item["p"]}>{subitem}</ch.WrapItem>;
       case "wrap":
         return (
           <ch.Wrap w={item["w"]} h={item["h"]} spacing={item["spacing"]}>
@@ -229,13 +265,14 @@ export function getTemplate(item, insert) {
           </ch.Wrap>
         );
       case "slidepanel":
+        var btn1 = getTemplate(item["btn1content"], insert);
         return (
           <dc.SlidePanel
             id={item["id"]}
             side={item["side"]}
             content={subitem}
             size={item["size"]}
-            btn1content={item["btn1content"]}
+            btn1content={btn1}
             btn1width={item["btn1width"]}
             btn1height={item["btn1height"]}
             btn1cs={item["btn1colorScheme"]}
@@ -249,6 +286,8 @@ export function getTemplate(item, insert) {
         return <ch.Flex>{subitem}</ch.Flex>;
       case "hstack":
         return <ch.HStack spacing={item["spacing"]}>{subitem}</ch.HStack>;
+      case "vstack":
+        return <ch.VStack spacing={item["spacing"]}>{subitem}</ch.VStack>;
       case "grid":
         return (
           <ch.Grid
@@ -280,7 +319,57 @@ export function getTemplate(item, insert) {
           </ch.Link>
         );
       case "WarningIcon":
-        return <ic.WarningIcon w={8} h={8} color="red.500" />;
+        return (
+          <ic.WarningIcon w={item["w"]} h={item["h"]} color={item["color"]} />
+        );
+      case "HamburgerIcon":
+        return (
+          <ic.HamburgerIcon w={item["w"]} h={item["h"]} color={item["color"]} />
+        );
+      case "ViewIcon":
+        return (
+          <ic.ViewIcon w={item["w"]} h={item["h"]} color={item["color"]} />
+        );
+      case "DragHandleIcon":
+        return (
+          <ic.DragHandleIcon
+            w={item["w"]}
+            h={item["h"]}
+            color={item["color"]}
+          />
+        );
+      case "DragHandleIcon":
+        return (
+          <ic.DragHandleIcon
+            w={item["w"]}
+            h={item["h"]}
+            color={item["color"]}
+          />
+        );
+      case "EditIcon":
+        return (
+          <ic.EditIcon w={item["w"]} h={item["h"]} color={item["color"]} />
+        );
+      case "RepeatClockIcon":
+        return (
+          <ic.RepeatClockIcon
+            w={item["w"]}
+            h={item["h"]}
+            color={item["color"]}
+          />
+        );
+      case "TriangleUpIcon":
+        return (
+          <ic.TriangleUpIcon
+            w={item["w"]}
+            h={item["h"]}
+            color={item["color"]}
+          />
+        );
+      case "Search2Icon":
+        return (
+          <ic.Search2Icon w={item["w"]} h={item["h"]} color={item["color"]} />
+        );
     }
   }
   console.log(item);
