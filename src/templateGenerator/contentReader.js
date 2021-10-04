@@ -3,6 +3,7 @@ import * as dc from "./dynamicContent";
 import * as ch from "@chakra-ui/react";
 import * as ic from "@chakra-ui/icons";
 
+import ReactDOM from "react-dom";
 import React, { component, createElement } from "react";
 
 var lstItems = new Map();
@@ -79,101 +80,15 @@ export function contentReader(json) {
   } catch (err) {
     console.log("wrong data");
   }
-  /*if (["lol", "lol"] instanceof Array) {
-    console.log("lol");
-  }
 
-  */
   return lst;
-  /*console.log("loaded");
-  for (var prop in obj) {
-    var inner = [];
-    console.log(prop);
-    var keys = Object.keys(obj[prop]);
-    console.log("aaa");
-    console.log(keys);
-    console.log("aaa");
-    if (keys.includes("content")) {
-      var stuff = obj[prop]["content"];
-      for (var c in stuff) {
-        if (typeof stuff[c] == "string") {
-          inner.push(stuff[c]);
-          console.log(stuff[c]);
-        } else if (typeof stuff[c] == "object") {
-          console.log("ooo");
-          console.log(stuff[c]);
-          console.log("ooo");
-          contentReader(lst, stuff[c]);
-          //lst.push(contentReader(lst, stuff[c]));
-        }
-      }
-    }
 
-    switch (prop) {
-      case "box":
-        console.log(obj[prop]);
-        lst.push(
-          <Box border="1px" borderColor="gray.200">
-            {inner}
-          </Box>
-        );
-        return lst;
-
-      case "space":
-        return <Spacer />;
-    }
-
-    if (typeof obj[prop] == "object") {
-      console.log(obj[prop]);
-    }
-  }*/
-  /*for (var prop in obj) {
-    if (typeof obj[prop] == "object") {
-      // object
-      //contentReader(obj[prop[i]]);
-      //contentReader(obj[prop]);
-      console.log("---");
-      console.log(obj[prop]);
-      console.log("---");
-      var keys = Object.keys(obj);
-
-      console.log("111");
-      console.log(keys);
-      console.log("111");
-      console.log(typeof obj[prop][keys]);
-      contentReader(obj[prop]);
-    } else {
-      // something else
-      console.log("===");
-      console.log("The value of " + prop + " is " + obj[prop] + ".");
-      console.log("===");
-    }
-  }*/
-  /*try {
-    var count = 0;
-    for (var r in j) {
-      for (var i in j[r]) {
-        try {
-          var keys = Object.keys(j[r][i]);
-          if (typeof j[r][i][keys[0]] == "object") {
-            console.log(j[r][i][keys[0]]);
-          } else {
-            lst.push(getTemplatedItem(keys[0], j[r][i][keys[0]]));
-          }
-        } catch {
-          lst.push(<p>problem with line: " {count}</p>);
-        }
-        count += 1;
-      }
-    }
-  } catch (err) {
-    console.log("wrong data");
-  }*/
   return lst;
 }
 
 function sortItemType(item, insert) {
   var subitem = item["content"];
+
   if (typeof item["content"] == "object") {
     if (Array.isArray(item["content"])) {
       var lst = [];
@@ -183,6 +98,12 @@ function sortItemType(item, insert) {
       subitem = lst;
     } else {
       subitem = getTemplate(item["content"]);
+    }
+
+    if (React.isValidElement(subitem)) {
+      //console.log("no working");
+      //return ReactDOM.render(subitem);
+      return subitem;
     }
   } else if (insert != null) {
     subitem = insert;
@@ -372,6 +293,7 @@ export function getTemplate(item, insert) {
         );
     }
   }
+  return item;
   console.log(item);
   console.log("bugger");
 }
