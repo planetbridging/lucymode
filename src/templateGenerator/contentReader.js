@@ -291,6 +291,9 @@ export function getTemplate(item, insert) {
         return (
           <ic.Search2Icon w={item["w"]} h={item["h"]} color={item["color"]} />
         );
+
+      case "AddIcon":
+        return <ic.AddIcon w={item["w"]} h={item["h"]} color={item["color"]} />;
     }
   }
   return item;

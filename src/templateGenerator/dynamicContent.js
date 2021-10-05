@@ -51,6 +51,21 @@ export class CustomCheckBox extends React.Component {
   };
 }
 
+function removeDups(a) {
+  var seen = {};
+  var out = [];
+  var len = a.length;
+  var j = 0;
+  for (var i = 0; i < len; i++) {
+    var item = a[i];
+    if (seen[item] !== 1) {
+      seen[item] = 1;
+      out[j++] = item;
+    }
+  }
+  return out;
+}
+
 export class CheckList extends React.Component {
   state = {
     showCheckItems: [],
@@ -103,13 +118,19 @@ export class CheckList extends React.Component {
       if (index > -1) {
         lstCheck[id].lst.splice(index, 1);
       }
+      for (var dups in lstCheck[id].lst + 1) {
+        const index = lstCheck[id].lst.indexOf(e);
+        if (index > -1) {
+          lstCheck[id].lst.splice(index, 1);
+        }
+      }
     } else {
       checked[i] = true;
       if (index != 0) {
         lstCheck[id].lst.push(e);
       }
     }
-
+    lstCheck[id].lst = removeDups(lstCheck[id].lst);
     this.setState({ checked: checked });
     this.props.parentCallback();
   };
