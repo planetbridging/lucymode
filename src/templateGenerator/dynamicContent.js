@@ -20,6 +20,7 @@ export class CustomCheckBox extends React.Component {
   state = {
     location: false,
   };
+  handleChange = () => {};
   render() {
     var id = uuidv4();
     if (this.props.check) {
@@ -29,12 +30,19 @@ export class CustomCheckBox extends React.Component {
           onClick={this.onClick}
           name={id}
           id={id}
+          onChange={this.handleChange}
           checked
         ></input>
       );
     } else {
       return (
-        <input type="checkbox" onClick={this.onClick} name={id} id={id}></input>
+        <input
+          type="checkbox"
+          onClick={this.onClick}
+          name={id}
+          id={id}
+          onChange={this.handleChange}
+        ></input>
       );
     }
     return (
