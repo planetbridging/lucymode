@@ -201,6 +201,8 @@ export function getTemplate(item, insert) {
             btn2width={item["btn2width"]}
             btn2height={item["btn2height"]}
             btn2cs={item["btn2colorScheme"]}
+            title={item["title"]}
+            footer={item["footer"]}
           />
         );
       case "flex":
