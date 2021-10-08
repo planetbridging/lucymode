@@ -140,6 +140,9 @@ export function getTemplate(item, insert) {
             colorScheme={item["colorScheme"]}
             size={item["size"]}
             onClick={item["onClick"]}
+            border={item["border"]}
+            variant={item["variant"]}
+            rounded={item["rounded"]}
           >
             {btn1}
           </ch.Button>
@@ -151,6 +154,7 @@ export function getTemplate(item, insert) {
             fontSize={item["fontSize"]}
             className={item["className"]}
             bg={item["bg"]}
+            border={item["border"]}
           >
             {subitem}
           </ch.Text>
@@ -167,6 +171,7 @@ export function getTemplate(item, insert) {
             color={item["color"]}
             h={item["h"]}
             boxShadow={item["boxShadow"]}
+            border={item["border"]}
           >
             {subitem}
           </ch.Box>
