@@ -182,6 +182,16 @@ export function getTemplate(item, insert) {
             {subitem}
           </ch.Center>
         );
+      case "input":
+        return (
+          <ch.Input
+            placeholder={item["placeholder"]}
+            size={item["size"]}
+            variant={item["variant"]}
+            value={item["value"]}
+            onChange={item["onChange"]}
+          />
+        );
       case "wrapitem":
         return <ch.WrapItem p={item["p"]}>{subitem}</ch.WrapItem>;
       case "wrap":
