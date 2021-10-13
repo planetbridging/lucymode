@@ -122,3 +122,33 @@ export function getFlex(items, a, j) {
     </ch.Flex>
   );
 }
+
+export function getTable(subitems, colorScheme, variant) {
+  return (
+    <ch.Table colorScheme={colorScheme} variant={variant}>
+      {subitems}
+    </ch.Table>
+  );
+}
+
+export function getTableHead(subitems) {
+  const lst = subitems.map(function (i) {
+    return <ch.Th key={uuidv4()}>{i}</ch.Th>;
+  });
+  return (
+    <ch.Thead>
+      <ch.Tr>{lst}</ch.Tr>
+    </ch.Thead>
+  );
+}
+
+export function getTr(subitems) {
+  const lst = subitems.map(function (i) {
+    return <ch.Td key={uuidv4()}>{i}</ch.Td>;
+  });
+  return <ch.Tr>{lst}</ch.Tr>;
+}
+
+export function getTbody(subitems) {
+  return <ch.Tbody>{subitems}</ch.Tbody>;
+}

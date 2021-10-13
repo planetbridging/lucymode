@@ -125,10 +125,35 @@ export function getTemplate(item, insert) {
     //var keys = Object.keys(item);
 
     //console.log(keys);
-
+    /*  ml={item["ml"]}
+            variant={item["variant"]}
+            colorScheme={item["colorScheme"]}*/
     var subitem = sortItemType(item, insert);
 
     switch (item["i"]) {
+      //chakra broke or something ?
+      /*case "badge ":
+        return <ch.Badge>{subitem}</ch.Badge>;
+      
+      case "table ":
+        return (
+          <ch.Table colorScheme={item["colorScheme"]} variant={item["variant"]}>
+            {subitem}
+          </ch.Table>
+        );
+      case "thead ":
+        return <ch.Thead>{subitem}</ch.Thead>;
+      case "tr ":
+        return <ch.Tr>{subitem}</ch.Tr>;
+      case "th ":
+        return <ch.Th>{subitem}</ch.Th>;
+      case "tbody ":
+        return <ch.Tbody>{subitem}</ch.Tbody>;
+      case "td ":
+        return <ch.Td>{subitem}</ch.Td>;
+      case "tfoot ":
+        return <ch.Tfoot>{subitem}</ch.Tfoot>;*/
+      case "flex ":
       case "spacer ":
         return <ch.Spacer />;
       case "flex ":
@@ -314,8 +339,6 @@ export function getTemplate(item, insert) {
     }
   }
   return item;
-  console.log(item);
-  console.log("bugger");
 }
 
 function findSettings(find, items) {
